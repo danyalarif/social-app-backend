@@ -34,12 +34,16 @@ public class UserServices
         await _dbContext.SaveChangesAsync();
         return user;
     }
-    public async Task<User> GetUserAsync(Expression<Func<User, bool>> where)
+    public async Task<User?> GetUserAsync(Expression<Func<User, bool>> where, ServiceOptions? options = null)
     {
         User? user = await _dbContext.Users.Where(where).FirstOrDefaultAsync();
         if (user == null)
         {
-            throw new ServiceException("User Not Found!", 404);
+            _logger.LogError("User Not Found!");
+            if (options?.ThrowErrorIfNotExists == true)
+            {
+                throw new ServiceException("User Not Found!", 404);
+            }
         }
         return user;
     }
