@@ -19,7 +19,7 @@ namespace social_app_backend.Controllers
             _userServices = userServices;
             _logger = logger;
         }
-        public async Task<IActionResult> CreateUserAsync(CreateUserDTO request)
+        public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDTO request)
         {
             try
             {

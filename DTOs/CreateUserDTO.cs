@@ -11,7 +11,7 @@ public class CreateUserDTO
     [Required]
     public string Password { get; set; }
     [StringLength(30)]
-    public string FirstName { get; set; } 
+    public string? FirstName { get; set; } 
     [StringLength(30)]
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 }
