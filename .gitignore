@@ -1,0 +1,84 @@
+# .NET Core
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.appref-ms
+*.pidb
+*.user
+*.suo
+*.userosscache
+*.suo
+*.ide
+*.ipch
+*.ncb
+*.aps
+*.cache
+*.dmp
+*.dbmdl
+*.bak
+*.log
+*.lbi
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Rider
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio for Mac
+.vscode/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
+
+# Linux
+*~
+
+# JetBrains Rider
+.idea/
+
+# Dotnet publish directory
+wwwroot/publish/
+
+# Local db files
+*.mdf
+*.ldf
+
+# dotenv
+.env
+
+# Node.js
+node_modules/
+
+# npm logs
+npm-debug.log*
+
+# Coverage
+coverage/
+
+# Data
+*.db
+*.sqlite
+*.sql
+*.csv
+
+# Logs
+*.log
