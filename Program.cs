@@ -9,14 +9,15 @@ builder.Services.AddControllers();
 builder.Services.Configure<DbSettings>(builder.Configuration.GetSection("DbSettings")); 
 builder.Services.AddSingleton<AppDbContext>(); 
 builder.Services.AddScoped<UserServices>();
-
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
 //always use https
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseExceptionHandler();
 
 app.MapControllers();
 
