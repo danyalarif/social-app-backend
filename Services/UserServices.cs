@@ -47,5 +47,13 @@ public class UserServices
         }
         return user;
     }
-
+    public async Task<List<User>> GetAllUsersAsync(Expression<Func<User, bool>>? where = null)
+    {
+        if (where == null)
+        {
+            where = user => true;
+        }
+        List<User> users = await _dbContext.Users.Where(where).ToListAsync();
+        return users;
+    }
 }
