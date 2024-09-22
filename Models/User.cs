@@ -14,4 +14,6 @@ public class User
     public string Role { get; set; } = "user";
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public ICollection<Request> SentRequests { get; set; } = new List<Request>();
+    public ICollection<Request> ReceivedRequests { get; set; } = new List<Request>();
 }

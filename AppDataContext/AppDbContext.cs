@@ -40,4 +40,18 @@ public class AppDbContext : DbContext
         }
 
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Request>()
+            .HasOne(r => r.Sender)
+            .WithMany(u => u.SentRequests)
+            .HasForeignKey(r => r.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Request>()
+            .HasOne(r => r.Receiver)
+            .WithMany(u => u.ReceivedRequests)
+            .HasForeignKey(r => r.ReceiverId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }
