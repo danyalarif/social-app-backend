@@ -16,11 +16,13 @@ namespace social_app_backend.Controllers
     {
         private readonly UserServices _userServices;
         private readonly ILogger<UserServices> _logger;
+        private readonly JWT _jwt;
 
-        public UserController(UserServices userServices, ILogger<UserServices> logger)
+        public UserController(UserServices userServices, ILogger<UserServices> logger, JWT jwt)
         {
             _userServices = userServices;
             _logger = logger;
+            _jwt = jwt;
         }
         public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDTO request)
         {
@@ -50,7 +52,8 @@ namespace social_app_backend.Controllers
                 {
                     ThrowErrorIfNotExists = true
                 });
-                return Ok(new { data = user, success = true });
+                string token = _jwt.GenerateToken(user!);
+                return Ok(new { data = user, success = true, token });
             }
             catch (ServiceException e)
             {
