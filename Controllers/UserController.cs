@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -64,11 +65,34 @@ namespace social_app_backend.Controllers
         }
         [Authorize(Roles = "admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllUsersAsync([FromQuery] int page, [FromQuery] int limit, [FromQuery] string sortBy, [FromQuery] string sortOrder = "DESC")
+        public async Task<IActionResult> GetAllUsersAsync(
+            [FromQuery] int? page, [FromQuery] int? limit,
+            [FromQuery] string? sortBy,
+            [FromQuery] string? sortOrder, [FromQuery] string? searchKey
+        )
         {
+            Expression<Func<User, bool>>? filter = null;
+            if (searchKey != null && searchKey.Trim().Length > 0)
+            {
+                if (!string.IsNullOrWhiteSpace(searchKey))
+                {
+                    filter = u =>
+                        u.Email.Contains(searchKey) ||
+                        u.FirstName != null && u.FirstName.Contains(searchKey) ||
+                        u.LastName != null && u.LastName.Contains(searchKey) ||
+                        u.Role.Contains(searchKey)
+                    ;
+                }
+            }
             try
             {
-                List<User> users = await _userServices.GetAllUsersAsync();
+                List<User> users = await _userServices.GetAllUsersAsync(filter, new GetOptions
+                {
+                    Page = page ?? 1,
+                    Limit = limit,
+                    SortBy = sortBy,
+                    SortOrder = sortOrder ?? "DESC"
+                });
                 return Ok(new { success = true, data = users });
             }
             catch (ServiceException e)
