@@ -43,7 +43,7 @@ namespace social_app_backend.Controllers
             }
         }
         [HttpPost]
-        [Route("api/[controller]/login")]
+        [Route("login")]
         public async Task<IActionResult> Login(LoginUserDTO request)
         {
             try
