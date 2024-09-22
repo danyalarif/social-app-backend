@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
 {
     private readonly DbSettings _dbSettings;
     public DbSet<User> Users { get; set; }
+    public DbSet<Request> Requests { get; set; }
     private readonly ILogger<AppDbContext> _logger;
     public AppDbContext(IOptions<DbSettings> dbSettings, ILogger<AppDbContext> logger)
     {
