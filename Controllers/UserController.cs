@@ -46,8 +46,6 @@ namespace social_app_backend.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO request)
         {
-            Console.WriteLine(request.Email);
-            Console.Out.Flush();
             try
             {
                 User? user = await _userServices.GetUserAsync(user => user.Email == request.Email && user.Password == request.Password, new ServiceOptions
