@@ -10,16 +10,34 @@ public class AppDbContext : DbContext
 {
     private readonly DbSettings _dbSettings;
     public DbSet<User> Users { get; set; }
-    public AppDbContext(IOptions<DbSettings> dbSettings)
+    private readonly ILogger<AppDbContext> _logger;
+    public AppDbContext(IOptions<DbSettings> dbSettings, ILogger<AppDbContext> logger)
     {
         _dbSettings = dbSettings.Value;
+        _logger = logger;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseMySql(
-            _dbSettings.ConnectionString,
-            new MySqlServerVersion(new Version(8, 0, 23))
-        );
+        try
+        {
+            optionsBuilder.UseMySql(
+                _dbSettings.ConnectionString,
+                ServerVersion.AutoDetect(_dbSettings.ConnectionString),
+                    mysqlOptions =>
+                    {
+                        mysqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null
+                        );
+                    }
+            );
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "A database error occurred. " + e.Message);
+        }
+
     }
 }
