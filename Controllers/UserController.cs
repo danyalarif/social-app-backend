@@ -64,7 +64,7 @@ namespace social_app_backend.Controllers
         }
         [Authorize(Roles = "admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllUsersAsync()
+        public async Task<IActionResult> GetAllUsersAsync([FromQuery] int page, [FromQuery] int limit, [FromQuery] string sortBy, [FromQuery] string sortOrder = "DESC")
         {
             try
             {
